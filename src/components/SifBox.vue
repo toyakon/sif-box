@@ -26,21 +26,21 @@ export default {
     return {
       initData: {
         通常BOX: {
-          "10万": 0,
-          "40万": 0,
-          "120万": 0,
+          "400万": 0,
           "200万": 0,
-          "400万": 0
+          "120万": 0,
+          "40万": 0,
+          "10万": 0
         },
         メンバー: {
-          "300万": 0,
+          "1000万": 0,
           "500万": 0,
-          "1000万": 0
+          "300万": 0
         },
         グループ: {
-          "300万": 0,
+          "1000万": 0,
           "500万": 0,
-          "1000万": 0
+          "300万": 0
         },
         SIS: {
           キッス: 0,
@@ -68,9 +68,9 @@ export default {
           R先生: 0
         },
         その他: {
+          Rシール: 0,
           友情pt: 0,
-          G: 0,
-          Rシール: 0
+          G: 0
         },
         スペシャル: {
           "ピース 8": 0,
@@ -106,7 +106,7 @@ export default {
     },
     load() {
       let data = JSON.parse(localStorage.getItem("sifbox")) || this.initData;
-      Object.assign(this.content, data);
+      this.content = Object.assign(this.initData, data);
       this.$forceUpdate();
     },
     reset() {
