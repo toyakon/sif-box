@@ -14,6 +14,15 @@
         </div>
       </div>
     </div>
+    <div id="history">
+      <div class="cmd">
+        <div id="hisAdd" @click="addHistory">履歴追加</div>
+        <div id="hisRemove" @click="removeHistory">履歴削除</div>
+      </div>
+      <div class="history" v-for="(his, date) in history" :key="date">
+        {{ date }} {{ his }}
+      </div>
+    </div>
     <div id="reset" @click="reset">
       リセット
     </div>
@@ -87,7 +96,8 @@ export default {
           5100: 0
         }
       },
-      content: {}
+      content: {},
+      history: {}
     };
   },
   methods: {
@@ -101,10 +111,13 @@ export default {
     },
     save() {
       localStorage.setItem("sifbox", JSON.stringify(this.content));
+      localStorage.setItem("history", JSON.stringify(this.history));
     },
     load() {
-      let data = JSON.parse(localStorage.getItem("sifbox")) || this.initData;
+      let data = JSON.parse(localStorage.getItem("sifbox"));
       this.content = Object.assign(this.initData, data);
+      this.history =
+        JSON.parse(localStorage.getItem("history")) || this.history;
       this.$forceUpdate();
     },
     reset() {
@@ -112,6 +125,19 @@ export default {
         localStorage.removeItem("sifbox");
         window.location.reload();
       }
+    },
+    addHistory() {
+      this.history[Date()] = this.content;
+      this.save();
+      this.$forceUpdate();
+    },
+    removeHistory() {
+      this.histroy = null;
+      for (let key in this.history) {
+        delete this.history[key];
+      }
+      this.save();
+      this.$forceUpdate();
     }
   },
   mounted() {
@@ -216,6 +242,40 @@ a {
   &:hover {
     color: #fff;
     background: #f00;
+  }
+}
+
+#history {
+  .cmd {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    #hisRemove {
+      display: inline-block;
+      width: 100px;
+      height: 50px;
+      border: 1px solid #000;
+      border-radius: 10px;
+      text-align: center;
+      line-height: 50px;
+      cursor: pointer;
+      &:hover {
+        background: #ccc;
+      }
+    }
+    #hisAdd {
+      display: inline-block;
+      width: 100px;
+      height: 50px;
+      border: 1px solid #000;
+      border-radius: 10px;
+      text-align: center;
+      line-height: 50px;
+      cursor: pointer;
+      &:hover {
+        background: #ccc;
+      }
+    }
   }
 }
 </style>
