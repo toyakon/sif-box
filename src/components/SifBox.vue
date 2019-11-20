@@ -227,6 +227,7 @@ a {
   }
   &:hover {
     background: #ccc;
+    
   }
 }
 
